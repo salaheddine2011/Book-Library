@@ -19,13 +19,14 @@ export const SearchBooksPage = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             const baseUrl: String = "http://localhost:8080/api/books";
-            let url: RequestInfo;
+            let url: RequestInfo='';
 
 
             if (searchUrl === '') {
                 url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
             } else {
-                url = baseUrl + searchUrl;
+                let searchWithPage = searchUrl.replace('<pageNumber>', `${currentPage - 1}`);
+                url = baseUrl + searchWithPage;
             }
 
             const response = await fetch(url);
@@ -95,10 +96,10 @@ export const SearchBooksPage = () => {
             value.toLowerCase()==='data'
           ){
             setCategorySelection(value);
-            setSearchUrl(`/search/findByCategory?category=${value}&page=0&size=${booksPerPage}`)
+            setSearchUrl(`/search/findByCategory?category=${value}&page=<pageNumber>&size=${booksPerPage}`)
           }else{
             setCategorySelection("All");
-            setSearchUrl(`?page=0&size=${booksPerPage}`)
+            setSearchUrl(`?page=<pageNumber>&size=${booksPerPage}`)
           }
     }
 
