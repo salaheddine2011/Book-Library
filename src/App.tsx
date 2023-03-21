@@ -2,12 +2,13 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { BookCheckoutPage } from './layouts/BookCheckoutPage/BookCheckoutPage';
-
 import { HomePage } from './layouts/HomePage/HomePage';
 import { Footer } from './layouts/NavbarAndFooter/Footer';
 import { Navbar } from './layouts/NavbarAndFooter/Navbar';
 import { SearchBook } from './layouts/SearchBooksPage/components/SearchBook';
 import { SearchBooksPage } from './layouts/SearchBooksPage/SearchBooksPage';
+import { oktaConfig } from './lib/oktaConfig';
+import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 
 export const App = () => {
   return (
