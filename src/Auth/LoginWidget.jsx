@@ -2,7 +2,7 @@ import { Redirect } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import { SpinnerLoading } from "../layouts/Utils/SpinnerLoading";
 
-const LoginWidget = ({ config }) => {
+ const LoginWidget = ({ config }) => {
 
     const {oktaAuth, authState}=useOktaAuth();
     const onSuccess=(tokens)=>{
@@ -22,4 +22,5 @@ const LoginWidget = ({ config }) => {
     <Redirect to={{pathname:'/'}}/>
     :
     <div></div>
-}
+};
+export default LoginWidget
