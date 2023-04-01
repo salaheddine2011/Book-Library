@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 
 export const oktaConfig = {
     clientId: '0oa8pain8en7qSXnX5d7',
-    issuer: 'http://dev-12367658.okta.com/oauth2/default',
+    issuer: 'https://dev-12367658.okta.com/oauth2/default',
     redirectUri: 'http://localhost:3000/login/callback',
     scopes: ['openid','profile','email'],
     pkce:true,
