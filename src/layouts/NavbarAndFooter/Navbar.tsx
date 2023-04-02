@@ -9,7 +9,6 @@ export const Navbar = () => {
   }
   const handleLogout = async () => oktaAuth.signOut();
   console.log(authState)
-  console.log(oktaAuth)
   return (
     <nav className='navbar navbar-expand-lg navbar-dark main-color py-3'>
       <div className='container-fluid'>

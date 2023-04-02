@@ -2,16 +2,17 @@ import { useOktaAuth } from "@okta/okta-react";
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel";
 
-export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean }> = (props) => {
+export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean,currenLoansCount:number }> = (props) => {
 
     const { authState } = useOktaAuth()
 
+    const booksChecked=fetch("localhost:8080/books/api/secure/currentloans/count");
     return (
         <div className={props.mobile ? 'card d-flex mt-5' : 'card col-3 container d-flex mb-5'}>
             <div className='card-body container'>
                 <div className='mt-3'>
                     <p>
-                        <b>0/5 </b>
+                        <b>{props.currenLoansCount}/5 </b>
                         books checked out
                     </p>
                     <hr />
