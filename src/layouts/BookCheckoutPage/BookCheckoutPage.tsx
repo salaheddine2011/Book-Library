@@ -20,8 +20,11 @@ export const BookCheckoutPage = () => {
     const [totalStars, setTotalStars] = useState(0);
     const [isLoadingReview, setIsLoadingReview] = useState(true)
     // Loans Count State
-    const [currentLoansCount,setCurrentLoansCount]=useState(0)
+    const [currentLoansCount,setCurrentLoansCount]=useState(0) //0 for the default without authentication
     const [isLoadingCurrentLoansCount,setIsLoadingCurrentLoansCount]=useState(true)
+    //Is Book Checked Out ?
+    const [isCheckedOut,setIsCheckedOut]=useState(false);
+    const [isLoadingBookCheckedOut,setIsLoadingBookCheckedOut]=useState(true)
 
     const bookId = (window.location.pathname).split('/')[2];
 
@@ -128,9 +131,36 @@ export const BookCheckoutPage = () => {
       });
     },[authState])
 
+    useEffect(()=>{
+        const fetchUserCheckedOutBook=async ()=>{
+            if(authState && authState.isAuthenticated){
+                const url=`http://localhost:8080/api/books/secure/ischeckout/byuser/?bookId=${bookId}`;
+                const requestOptions={
+                    method:'GET',
+                    headers:{
+                        Authorization:`Bearer ${authState.accessToken?.accessToken}`,
+                        'Content-type':'application/json'
+                    }
+                };
+                const bookCkeckedOut= await fetch(url,requestOptions);
+                if(!bookCkeckedOut.ok){
+                    throw new Error('Something went wrong')
+                }
+                const bookCkeckedOutResponseJson=await bookCkeckedOut.json()
+                setIsCheckedOut(bookCkeckedOutResponseJson)
+            }
+            setIsLoadingBookCheckedOut(false)
+        }
+
+        fetchUserCheckedOutBook().catch((error:any)=>{
+            setIsLoadingBookCheckedOut(false)
+            setHttpError(error.message);
+        })
+    },[authState])
 
 
-    if (isLoading || isLoadingReview || isLoadingCurrentLoansCount) {
+
+    if (isLoading || isLoadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckedOut) {
         return (
             <SpinnerLoading />
         )
@@ -164,7 +194,8 @@ export const BookCheckoutPage = () => {
                             <StarsReview rating={4} size={32} />
                         </div>
                     </div>
-                    <CheckoutAndReviewBox book={book} mobile={false} currenLoansCount={currentLoansCount} />
+                    <CheckoutAndReviewBox book={book} mobile={false} currenLoansCount={currentLoansCount} isAuthenticated={authState?.isAuthenticated}
+                     isCheckedOut={isCheckedOut}/>
                 </div>
                 <hr />
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
@@ -186,10 +217,9 @@ export const BookCheckoutPage = () => {
                         <StarsReview rating={totalStars} size={32} />
                     </div>
                 </div>
-                <CheckoutAndReviewBox book={book} mobile={true} currenLoansCount={currentLoansCount} />
+                <CheckoutAndReviewBox book={book} mobile={true} currenLoansCount={currentLoansCount} isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut} />
                 <hr />
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
-
             </div>
         </div>
     );

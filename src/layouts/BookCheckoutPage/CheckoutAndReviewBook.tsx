@@ -1,12 +1,27 @@
-import { useOktaAuth } from "@okta/okta-react";
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel";
 
-export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean,currenLoansCount:number }> = (props) => {
+export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean,currenLoansCount:number,
+                                              isAuthenticated:any, isCheckedOut:boolean }> = (props) => {
 
-    const { authState } = useOktaAuth()
+    const renderButton=()=>{
 
-    const booksChecked=fetch("localhost:8080/books/api/secure/currentloans/count");
+        if(props.isAuthenticated){
+            if(!props.isCheckedOut && props.currenLoansCount < 5){
+                return <button className="btn btn-success btn-lg">Checkout</button>
+            }
+            else if(props.isCheckedOut){
+                 return(<p><b>Book checked out. Enjoy!</b></p>)
+            }
+            else if(!props.isCheckedOut){
+                return (<p className="text-danger">Too many books checked out.</p>)
+            }
+        }
+        return (<Link to={'/login'} className="btn btn-success btn-lg">Sign in</Link>)
+    }
+                                            
+
+
     return (
         <div className={props.mobile ? 'card d-flex mt-5' : 'card col-3 container d-flex mb-5'}>
             <div className='card-body container'>
@@ -36,12 +51,7 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobil
                         </p>
                     </div>
                 </div>
-                {authState?.isAuthenticated ?
-                    <Link className="btn btn-success btn-lg" to="#">Checkout</Link>
-                    :
-                    <Link className="btn btn-success btn-lg" to="/login"> Sign in</Link>
-
-                }
+                  {renderButton()}
                 <hr />
                 <p className='mt-3'>
                     This number can change until placing order has been complete.
