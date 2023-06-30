@@ -2,10 +2,10 @@ import BookModel from "./BookModel";
 
 class ShelfCurrentloans{
     book:BookModel ;
-    days_left:number;
+    daysLeft:number;
     constructor(book:BookModel,daysLeft:number){
         this.book=book;
-        this.days_left=daysLeft;
+        this.daysLeft=daysLeft;
     } 
 }
 export default ShelfCurrentloans
