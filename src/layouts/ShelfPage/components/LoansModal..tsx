@@ -1,6 +1,6 @@
 import ShelfCurrentloans from "../../../models/ShelfCurrentLoans";
 
-export const LoansModal: React.FC<{ shelfCurrentLoan: ShelfCurrentloans, mobile: boolean,returnBook:any }> = (props) => {
+export const LoansModal: React.FC<{ shelfCurrentLoan: ShelfCurrentloans, mobile: boolean,returnBook:any,renewLoan:any }> = (props) => {
     return (
         <div className="modal fade" id={props.mobile ? `mobilemodal${props.shelfCurrentLoan.book.id}` : `modal${props.shelfCurrentLoan.book.id}`}
             data-bs-backdrop='static' data-bs-keyboard='false' aria-aria-labelledby="staticBackdropLabel" aria-hidden='true' key={props.shelfCurrentLoan.book.id}
@@ -53,9 +53,14 @@ export const LoansModal: React.FC<{ shelfCurrentLoan: ShelfCurrentloans, mobile:
                                     onClick={()=>props.returnBook(props.shelfCurrentLoan.book.id)}
                                         data-bs-dismiss='modal' className='list-group-item list-group-item-action'
                                         aria-current='true'>
-                                        Return Book
+                                        Return  
                                     </button>
                                     <button
+                                        onClick={props.shelfCurrentLoan.daysLeft < 0 ? 
+                                            (event)=>event.preventDefault()
+                                            :
+                                            ()=>props.renewLoan(props.shelfCurrentLoan.book.id) 
+                                        }
                                         data-bs-dismiss='modal'
                                         className={
                                             props.shelfCurrentLoan.daysLeft < 0 ?
