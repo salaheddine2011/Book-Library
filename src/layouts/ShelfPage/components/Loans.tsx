@@ -16,6 +16,7 @@ export const Loans = () => {
     const [checkout,setCheckout]=useState(false)
     useEffect(() => {
         const fetchUserCurrentLoans = async () => {
+            console.log(authState)
             if (authState && authState.isAuthenticated) {
                 const url = `http://localhost:8080/api/books/secure/currentloans`
                 const requestOptions = {

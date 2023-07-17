@@ -5,8 +5,9 @@ class HistoryModal {
     checkoutDate: string;
     title: string;
     author: string;
+    description:String;
     img: string
-    constructor(id: number, userEmail: string,checkoutDate:string,returnedDate: string, title: string, author: string, img: string) {
+    constructor(id: number, userEmail: string,checkoutDate:string,description:String,returnedDate: string, title: string, author: string, img: string) {
         this.id = id;
         this.author = author;
         this.checkoutDate = checkoutDate;
@@ -15,6 +16,7 @@ class HistoryModal {
         this.img=img;
         this.userEmail=userEmail;
         this.title=title;
+        this.description=description;
     }
 }
 export default HistoryModal;
