@@ -21,7 +21,7 @@ export const ManageLibraryPage = () => {
     }
 
     function messagesClickFunction(){
-        setChangeQuantityOfBooksClick(false)
+        setChangeQuantityOfBooksClick(false)    
         setMessagesClick(true)
     }
     if(authState?.accessToken?.claims.userType===undefined){
