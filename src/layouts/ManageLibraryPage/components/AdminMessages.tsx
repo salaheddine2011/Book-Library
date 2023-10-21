@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import MessageModel from "../../../models/MessageModel";
 import { Pagination } from "../../Utils/Pagination";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
+import { AdminMessage } from "./AdminMessage";
 
 //the first thing  
 
@@ -19,6 +20,7 @@ export const AdminMessages = () => {
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0)
+    console.log(authState)
 
     useEffect(() => {
         const fetchUserMessages = async () => {
@@ -28,7 +30,7 @@ export const AdminMessages = () => {
                     method: 'GET',
                     headers:
                     {
-                        Authorization: `Bearer ${authState?.accessToken}`,
+                        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                         'Content-type': 'application/json'
                     }
                 }
@@ -36,11 +38,13 @@ export const AdminMessages = () => {
                 if (!messageResponse.ok) {
                     throw new Error('Something went wrong!')
                 }
+                console.log(messageResponse)
                 const messagesResponseJson = await messageResponse.json()
                 setMessages(messagesResponseJson._embedded.messages);
                 setTotalPages(messagesResponseJson.page.totalPages);
             }
 
+            setIsLoadingMessages(false);
 
 
         }
@@ -69,10 +73,11 @@ export const AdminMessages = () => {
         <div className="mt-3">
             {messages.length > 0 ?
                 <>
+                {console.log(messages.length)}
                     <h5>Pending Q/A</h5>
-                    {messages.map(message => {
-                        <p>Question that i need a response </p>
-                    })}
+                    {messages.map(message => ( 
+                        <AdminMessage message={message} key={message.id} />
+                    ))}
                 </> :
                 <h5>No pending Q/A</h5> 
             }
