@@ -7,4 +7,4 @@ class AdminMessageRequest{
             this.response=response;
     }
 }
-export default AdminMessageRequest
+export default AdminMessageRequest;

@@ -72,20 +72,20 @@ export const AdminMessages = () => {
     }
 
     async function submitResponseToQuestion(id: number, response: string) {
-        const url = 'http://localhost:8080/api/messages/secure/admin/message';
-        if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/messages/secure/admin/message`;
+        if (authState && authState?.isAuthenticated && id !== null && response !== '') {
             const messageAdminRequestModel: AdminMessageRequest = new AdminMessageRequest(id, response);
             const requestOptions = {
                 method: 'PUT',
                 headers: {
-                    Authorization: `Bearer ${authState.accessToken?.accessToken}`,
-                    'Content-type': 'text/json'
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
                 },
-                Body : JSON.stringify(messageAdminRequestModel)
+                body: JSON.stringify(messageAdminRequestModel)
+            };
 
-            }
             const messageAdminRequestModelResponse=await fetch(url,requestOptions)
-            if(!messageAdminRequestModel.response){
+            if(!messageAdminRequestModelResponse.ok){
                 throw new Error('Something went wrong')
             }
             setBtnSubmit(!btnSubmit)
@@ -102,7 +102,7 @@ export const AdminMessages = () => {
                     {console.log(messages.length)}
                     <h5>Pending Q/A</h5>
                     {messages.map(message => (
-                        <AdminMessage message={message} key={message.id} />
+                        <AdminMessage submitResponseToQuestion={submitResponseToQuestion} message={message} key={message.id} />
                     ))}
                 </> :
                 <h5>No pending Q/A</h5>
