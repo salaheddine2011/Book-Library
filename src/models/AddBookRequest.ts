@@ -7,7 +7,7 @@ class AddBookRequest{
      copies: number;
      img ? : string;// img ? 
 
-    constructor(title:string, description:string,author:string,category:string,copies:number){
+    constructor(title:string, author:string, description:string,copies:number,category:string){
                 this.author=author;
                 this.category=category;
                 this.description=description;
@@ -15,5 +15,5 @@ class AddBookRequest{
                 // this.img=img;
                 this.title=title;
     }
-}
+} 
 export default AddBookRequest;
