@@ -89,7 +89,12 @@ export const ChangeQuantityOfBooks=() => {
                 :
                 <h5>Add a book before changing quantity</h5>
                }
-               {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+               {
+               totalPages > 1 && 
+               <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+               }
+
+            
             </div>
 
     );
