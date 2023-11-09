@@ -3,7 +3,7 @@ import BookModel from "../../../models/BookModel";
 import { Pagination } from "../../Utils/Pagination";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { ChangeQuantityOfBook } from "./ChangeQuantityOfBook";
-export const ChangeQuantityOfBooks=() => {
+export const ChangeQuantityOfBooks = () => {
     const [books, setBooks] = useState<BookModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null)
@@ -13,8 +13,8 @@ export const ChangeQuantityOfBooks=() => {
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
         const fetchBooks = async () => {
-            const baseUrl: string = `http://localhost:8080/api/books?page=${currentPage-1}&size=${booksPerPage}`;
-           
+            const baseUrl: string = `http://localhost:8080/api/books?page=${currentPage - 1}&size=${booksPerPage}`;
+
             const response = await fetch(baseUrl);
             if (!response.ok) {
                 throw new Error("Something Went Wrong");
@@ -46,56 +46,56 @@ export const ChangeQuantityOfBooks=() => {
             setIsLoading(false);
             setHttpError(error.message);
         })
-        
+
     }, [currentPage])
- 
+
     const indexOfLastBook: number = currentPage * booksPerPage;
     const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
     let lastItem = booksPerPage * currentPage <= totalAmountOfBooks ? booksPerPage * currentPage : totalAmountOfBooks;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
 
-    if(isLoading){
-        return(
-               <SpinnerLoading/>
+    if (isLoading) {
+        return (
+            <SpinnerLoading />
         );
     }
-    if(httpError){
+    if (httpError) {
         return (
             <div className="container m-5">
-                    <p>{httpError}</p>
+                <p>{httpError}</p>
             </div>
         )
     }
 
     return (
-            <div className="container mt-5">
-               {
-                totalAmountOfBooks > 0  ? 
-                <>
-                <div className="mt-3">
-                        <h3>Number of results: ({totalAmountOfBooks})</h3>
-                </div>
-                <p>
-                    {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items: 
-                </p>
-                {
-                    books.map((book)=>(
-                       <ChangeQuantityOfBook book={book} key={book.id} />  // remember we go from the general to specific
-                    )
-                    )
-                }
-                </>
-                :
-                <h5>Add a book before changing quantity</h5>
-               }
-               {
-               totalPages > 1 && 
-               <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
-               }
+        <div className="container mt-5">
+            {
+                totalAmountOfBooks > 0 ?
+                    <>
+                        <div className="mt-3">
+                            <h3>Number of results: ({totalAmountOfBooks})</h3>
+                        </div>
+                        <p>
+                            {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
+                        </p>
+                        {
+                            books.map((book) => (
+                                <ChangeQuantityOfBook book={book} key={book.id} />  // remember we go from the general to specific
+                            )
+                            )
+                        }
+                    </>
+                    :
+                    <h5>Add a book before changing quantity</h5>
+            }
+            {
+                totalPages > 1 &&
+                <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+            }
 
-            
-            </div>
+
+        </div>
 
     );
 }
