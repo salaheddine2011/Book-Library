@@ -6,7 +6,7 @@ export const ShelfPage = () => {
     const [historyClick,setHistoryClick]=useState(false)
     
     useEffect(()=>{
-            const response=fetch(`http://localhost:8080/api/books/secure/checkout/byuser`)
+            const response=fetch(`${process.env.REACT_APP_API}/books/secure/checkout/byuser`)
             console.log(response)
     },[])
 
