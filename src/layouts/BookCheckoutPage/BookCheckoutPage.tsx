@@ -31,7 +31,7 @@ export const BookCheckoutPage = () => {
     const [isCheckedOut, setIsCheckedOut] = useState(false);
     const [isLoadingBookCheckedOut, setIsLoadingBookCheckedOut] = useState(true)
 
-    const [displayError,setDisplayError]=useState(false )
+    const [displayError, setDisplayError] = useState(false)
 
     const bookId = (window.location.pathname).split('/')[2];
 
@@ -180,12 +180,12 @@ export const BookCheckoutPage = () => {
                         'Content-type': 'application/json'
                     }
                 };
-                const bookCkeckedOut = await fetch(url, requestOptions);
-                if (!bookCkeckedOut.ok) {
+                const bookCheckedOut = await fetch(url, requestOptions);
+                if (!bookCheckedOut.ok) {
                     throw new Error('Something went wrong')
                 }
-                const bookCkeckedOutResponseJson = await bookCkeckedOut.json()
-                setIsCheckedOut(bookCkeckedOutResponseJson)
+                const bookCheckedOutResponseJson = await bookCheckedOut.json()
+                setIsCheckedOut(bookCheckedOutResponseJson)
             }
             setIsLoadingBookCheckedOut(false)
         }
@@ -229,23 +229,23 @@ export const BookCheckoutPage = () => {
         setDisplayError(false)
         setIsCheckedOut(true)
     }
-    async function submitReview(startInput:number,reviewDescription: String) {
-        let bookId:number=0;
-        if(book?.id){
-            bookId=book.id;
+    async function submitReview(startInput: number, reviewDescription: String) {
+        let bookId: number = 0;
+        if (book?.id) {
+            bookId = book.id;
         }
-        const reviewRequestModel=new ReviewRequestModel(startInput,bookId,reviewDescription);
-        const url=`${process.env.REACT_APP_API}/reviews/secure`;
-        const requestOptions={
+        const reviewRequestModel = new ReviewRequestModel(startInput, bookId, reviewDescription);
+        const url = `${process.env.REACT_APP_API}/reviews/secure`;
+        const requestOptions = {
             method: 'POST',
-            headers:{
-                Authorization:`Bearer ${authState?.accessToken?.accessToken}`,//question
-                'Content-type':'application/json'
+            headers: {
+                Authorization: `Bearer ${authState?.accessToken?.accessToken}`,//question
+                'Content-type': 'application/json'
             },
-            body:JSON.stringify(reviewRequestModel)
+            body: JSON.stringify(reviewRequestModel)
         };
-        const returnResponse=await fetch(url,requestOptions)
-        if(!returnResponse.ok){
+        const returnResponse = await fetch(url, requestOptions)
+        if (!returnResponse.ok) {
             throw new Error('Something Went Wrong')
         }
         setIsReviewLeft(true)// apres tout est bien donc il a fait review
@@ -284,7 +284,7 @@ export const BookCheckoutPage = () => {
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
             </div>
             <div className='container d-lg-none mt-5'>
-            {displayError && <div className="alert alert-danger mt-3" role='alert'>
+                {displayError && <div className="alert alert-danger mt-3" role='alert'>
                     please pay outstanding fees and /or return late book(s)
                 </div>}
                 <div className='d-flex justify-content-center align-items-center'>
@@ -307,7 +307,7 @@ export const BookCheckoutPage = () => {
                     isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut} checkoutBook={checkoutBook}
                     isReviewLeft={isReviewLeft}
                     submitReview={submitReview}
-                    />
+                />
                 <hr />
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
             </div>
